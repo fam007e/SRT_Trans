@@ -18,8 +18,8 @@ This Python script translates subtitle files (.srt) from one language to another
 1. **Clone the repository** (or download the script):
 
     ```bash
-    git clone https://github.com/yourusername/your-repo-name.git
-    cd your-repo-name
+    git clone git@github.com:fam007e/SRT_Trans.git
+    cd SRT_Trans
     ```
 
 2. **Install the required library**:
@@ -35,7 +35,7 @@ This Python script translates subtitle files (.srt) from one language to another
 Run the script from the command line with the following format:
 
 ```bash
-python translate_srt.py input_file.srt source_language target_language
+python srt_tr.py input_file.srt source_language target_language
 ```
 -`input_file.srt`: Path to your input .srt file.
 -`source_language`: Language code of the input file (e.g., `en` for English).
@@ -43,18 +43,18 @@ python translate_srt.py input_file.srt source_language target_language
 
 ## Example
 ```bash
-python translate_srt.py movie_subtitles.srt en bn
+python srt_tr.py movie_subtitles.srt en bn
 ```
 This will read the `movie_subtitles.srt` file, translate the english subtitles to bangla, and save the output to `movie_subtitles_trs_bn.srt`.
 
 ## Help
 To display help information:
 ```bash
-python translate_srt.py -h
+python srt_tr.py -h
 ```
 This will display:
 ```sql
-usage: translate_srt.py [-h] input_file source_language target_language
+usage: srt_tr.py [-h] input_file source_language target_language
 
 Translate subtitles from one language to another.
 
