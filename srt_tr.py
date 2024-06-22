@@ -6,9 +6,15 @@ from tqdm import tqdm
 
 def translate_srt(input_file, source_language, target_language):
     translator = GoogleTranslator(source=source_language, target=target_language)
-
-    with open(input_file, 'r', encoding='utf-8') as infile:
-        lines = infile.readlines()
+    
+    # Attempt to read the file with utf-8 encoding
+    try:
+        with open(input_file, 'r', encoding='utf-8') as infile:
+            lines = infile.readlines()
+    except UnicodeDecodeError:
+        # If utf-8 fails, fallback to iso-8859-1
+        with open(input_file, 'r', encoding='iso-8859-1') as infile:
+            lines = infile.readlines()
 
     translated_lines = []
     for line in tqdm(lines, desc="Translating", unit=" line"):

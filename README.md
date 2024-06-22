@@ -25,7 +25,7 @@ This Python script translates subtitle files (.srt) from one language to another
 2. **Install the required library**:
 
     ```bash
-    pip install deep-translator
+    pip install deep-translator tqdm
     ```
 
 ## Usage
