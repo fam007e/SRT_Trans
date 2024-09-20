@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 def translate_srt(input_file, source_language, target_language):
     """Translate the subtitles in the input .srt file."""
-    
+
     translator = GoogleTranslator(source=source_language, target=target_language)
 
     try:
@@ -54,8 +54,8 @@ Language codes examples:
 '''
     )
     parser.add_argument('input_file', help='Input .srt file path')
-    parser.add_argument('source_language', help='Language code of the input file (e.g., en for English)')
-    parser.add_argument('target_language', help='Language code to translate to (e.g., bn for Bangla)')
+    parser.add_argument('source_language', help='Language code for input (e.g., en for English)')
+    parser.add_argument('target_language', help='Language code to output (e.g., bn for Bangla)')
     args = parser.parse_args()
 
     translate_srt(args.input_file, args.source_language, args.target_language)
