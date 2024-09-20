@@ -1,6 +1,6 @@
 # Subtitle Translator Script
 
-This Python script translates subtitle files (.srt) from one language to another using the Google Translator via the `deep_translator` library.
+This Python script translates subtitle files (`.srt`) from one language to another using the Google Translator via the `deep_translator` library.
 
 ## Features
 
@@ -11,7 +11,8 @@ This Python script translates subtitle files (.srt) from one language to another
 ## Requirements
 
 - Python 3.6+
-- `deep_translator` library
+- `deep-translator` library
+- `tqdm` library
 
 ## Installation
 
@@ -22,11 +23,12 @@ This Python script translates subtitle files (.srt) from one language to another
     cd SRT_Trans
     ```
 
-2. **Install the required library**:
+2. **Install the required libraries**:
 
     ```bash
-    pip install deep-translator tqdm
+    pip install -r requirements.txt
     ```
+
 
 ## Usage
 
