@@ -15,7 +15,7 @@ setup(
     version='0.1',
     author='Faisal Ahmed Moshiur',
     author_email='faisalmoshiur+gitSRT@gmail.com',
-    description='A script to translate .srt files from one language to another using GoogleTranslator.',
+    description='A script to translate .srt files using GoogleTranslator.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     py_modules=['translate_srt'],
