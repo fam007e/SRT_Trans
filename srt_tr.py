@@ -1,29 +1,29 @@
 import argparse
-from deep_translator import GoogleTranslator
-import re
 import os
+import re
+from deep_translator import GoogleTranslator
 from tqdm import tqdm
 
 def translate_srt(input_file, source_language, target_language):
-    translator = GoogleTranslator(source=source_language, target=target_language)
+    """Translate the subtitles in the input .srt file."""
     
-    # Attempt to read the file with utf-8 encoding
+    translator = GoogleTranslator(source=source_language, target=target_language)
+
     try:
         with open(input_file, 'r', encoding='utf-8') as infile:
             lines = infile.readlines()
     except UnicodeDecodeError:
-        # If utf-8 fails, fallback to iso-8859-1
         with open(input_file, 'r', encoding='iso-8859-1') as infile:
             lines = infile.readlines()
 
     translated_lines = []
     for line in tqdm(lines, desc="Translating", unit=" line"):
         stripped_line = line.strip()
-        if re.match(r'^\d+$', stripped_line) or re.match(r'^\d{2}:\d{2}:\d{2},\d{3} --> \d{2}:\d{2}:\d{2},\d{3}$', stripped_line) or stripped_line == "":
-            # Line number, timestamp, or empty line, do not translate
+        if (re.match(r'^\d+$', stripped_line) or
+                re.match(r'^\d{2}:\d{2}:\d{2},\d{3} --> \d{2}:\d{2}:\d{2},\d{3}$', stripped_line) or
+                stripped_line == ""):
             translated_lines.append(line)
         else:
-            # Subtitle text, translate
             translated_text = translator.translate(stripped_line)
             translated_lines.append(translated_text + "\n")
 
@@ -49,7 +49,8 @@ Language codes examples:
   ko - Korean
   ru - Russian
   hi - Hindi
-''')
+'''
+    )
     parser.add_argument('input_file', help='Input .srt file path')
     parser.add_argument('source_language', help='Language code of the input file (e.g., en for English)')
     parser.add_argument('target_language', help='Language code to translate to (e.g., bn for Bangla)')
