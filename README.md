@@ -39,9 +39,9 @@ Run the script from the command line with the following format:
 ```bash
 python srt_tr.py input_file.srt source_language target_language
 ```
--`input_file.srt`: Path to your input .srt file.
--`source_language`: Language code of the input file (e.g., `en` for English).
--`target_language`: Language code to translate to (e.g., `bn` for Bangla).
+- `input_file.srt`: Path to your input .srt file.
+- `source_language`: Language code of the input file (e.g., `en` for English).
+- `target_language`: Language code to translate to (e.g., `bn` for Bangla).
 
 ## Example
 ```bash
