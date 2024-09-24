@@ -33,6 +33,9 @@ jobs:
         run: |
           pyinstaller --onefile --name srt_tr_linux srt_tr.py
 
+      - name: List dist directory contents
+        run: ls -l dist
+        
       - name: Get previous release version
         id: get_release
         run: |
