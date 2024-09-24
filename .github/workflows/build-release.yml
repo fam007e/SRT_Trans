@@ -27,7 +27,7 @@ jobs:
 
       - name: Build Windows executable with PyInstaller
         run: |
-          pyinstaller --onefile --name srt_tr_win srt_tr.py
+          pyinstaller --onefile --name srt_tr_win.exe srt_tr.py
 
       - name: Build Linux binary with PyInstaller
         run: |
