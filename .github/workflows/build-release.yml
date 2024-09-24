@@ -15,43 +15,39 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python Environment
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.10'
 
-    - name: Install PyInstaller and GitHub CLI
+    - name: Install Dependencies
       run: |
-        sudo apt update && sudo apt upgrade -y
-        python -m pip install --upgrade pip
+        pip install -r requirements.txt
         pip install pyinstaller
+
+    - name: Build binary
+      run: |
+        pyinstaller --onefile --name srt_tr_win.exe srt_tr.py
+        pyinstaller --onefile --name srt_tr_linux srt_tr.py
+        chmod +x dist/*
+
+    - name: Set up GitHub CLI
+      run: |
         sudo apt-get install -y gh
 
     - name: Authenticate GitHub CLI
       run: |
         echo "${{ secrets.SRT_TR_TOKEN }}" | gh auth login --with-token
 
-    - name: Build Windows and Linux binaries
-      run: |
-        pyinstaller --onefile --name srt_tr_win.exe srt_tr.py
-        pyinstaller --onefile --name srt_tr_linux srt_tr.py
-        chmod +x dist/srt_tr_linux
-
-    - name: Create tarball
-      run: |
-        version=$(date +'%Y.%m.%d')".$(git rev-list --count HEAD)"
-        tar -czf "release/srt_translator-${version}.tar.gz" -C dist srt_tr_win.exe srt_tr_linux
-        echo "Version: ${version}" > release/version.txt
-
     - name: Create release
       id: create_release
       run: |
         version=$(date +'%Y.%m.%d')".$(git rev-list --count HEAD)"
         changelog=$(git log --oneline --pretty=format:"* %s (%h)" | head -n 20)
-        echo "Changelog: $changelog" > release/changelog.txt
+        echo "Changelog: $changelog" > dist/changelog.txt
         
-        gh release create "v${version}" dist/srt_tr_win.exe dist/srt_tr_linux release/srt_translator-${version}.tar.gz release/changelog.txt --title "Release v${version}" --notes "$changelog"
+        gh release create "v${version}" dist/srt_tr_win.exe dist/srt_tr_linux dist/changelog.txt --title "Release v${version}" --notes "$changelog"
 
-    - name: Clean up old binaries
+    - name: Clean up binaries
       run: |
-        rm -rf dist/srt_tr_win.exe dist/srt_tr_linux
+        rm dist/srt_tr_win.exe dist/srt_tr_linux
