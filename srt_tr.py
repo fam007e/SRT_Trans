@@ -1,4 +1,4 @@
-"""Script to translate subtitle files (.srt) from one language to another."""
+"""A script to translate subtitle files (.srt) from one language to another."""
 
 import argparse
 import os
