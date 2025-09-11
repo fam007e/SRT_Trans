@@ -18,15 +18,14 @@ setup(
     description='A script to translate .srt files using GoogleTranslator.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    py_modules=['srt_tr'],
+    py_modules=['translate_srt'],
     install_requires=[
         'deep-translator',
         'tqdm',
-        'chardet',
     ],
     entry_points={
         'console_scripts': [
-            'translate-srt=srt_tr:main',
+            'translate-srt=translate_srt:main',
         ],
     },
     classifiers=[
