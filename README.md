@@ -101,6 +101,38 @@ The script supports all languages available through the Google Translator API. S
 - `ru` - Russian
 - `hi` - Hindi
 
+## Binary Release
+
+For users who prefer not to install Python or its dependencies, pre-compiled binaries are available for Windows and Linux. These binaries allow you to run the `srt_tr` script directly without any installation.
+
+### Download
+
+You can download the latest binaries from the [GitHub Releases page](https://github.com/fam007e/SRT_Trans/releases). Look for `srt_tr_win.exe` for Windows and `srt_tr_linux` for Linux under the "Assets" section of the latest release.
+
+### Usage
+
+#### Windows
+
+1.  Download `srt_tr_win.exe` from the [Releases page](https://github.com/fam007e/SRT_Trans/releases).
+2.  Open a Command Prompt or PowerShell window in the directory where you downloaded the executable.
+3.  Run the executable with the desired arguments:
+    ```bash
+    srt_tr_win.exe input_file.srt target_language [-s source_language] [-o output_file]
+    ```
+
+#### Linux
+
+1.  Download `srt_tr_linux` from the [Releases page](https://github.com/fam007e/SRT_Trans/releases).
+2.  Open a terminal in the directory where you downloaded the executable.
+3.  Make the executable runnable:
+    ```bash
+    chmod +x srt_tr_linux
+    ```
+4.  Run the executable with the desired arguments:
+    ```bash
+    ./srt_tr_linux input_file.srt target_language [-s source_language] [-o output_file]
+    ```
+
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
