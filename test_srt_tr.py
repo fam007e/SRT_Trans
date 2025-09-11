@@ -134,11 +134,7 @@ Bonjour
 
             translated_text = translate_subtitle_block(text, 'en', 'es')
 
-            self.assertIn("<i>", translated_text)
-            self.assertIn("</i>", translated_text)
-            self.assertIn("<b>", translated_text)
-            self.assertIn("</b>", translated_text)
-            self.assertIn("Hola Mundo", translated_text)
+            self.assertEqual(translated_text, "<i>Hola</i> <b>Mundo</b>")
 
 if __name__ == '__main__':
     unittest.main()
