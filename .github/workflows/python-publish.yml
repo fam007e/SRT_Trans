@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build twine deep-translator tqdm chardet
+          pip install build twine -r requirements.txt
 
       - name: Build package
         run: python -m build

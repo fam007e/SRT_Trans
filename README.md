@@ -1,109 +1,112 @@
-# Subtitle Translator Script
+# SRT Translator
 
-This Python script translates subtitle files (`.srt`) from one language to another using the Google Translator via the `deep_translator` library.
+A robust and feature-rich Python command-line tool for translating SubRip (SRT) subtitle files. This application provides an elegant solution for subtitle translation, offering flexibility in translation services, efficient batch processing, and intelligent handling of complex subtitle content.
 
 ## Features
 
-- Translates subtitle text while preserving timestamps and formatting.
-- Automatically generates an output file with a standardized naming convention.
-- Supports multiple languages, including files with mixed languages, by translating each subtitle block individually.
-- Robustly handles common SRT formatting errors.
-- Preserves HTML tags within subtitles.
+-   **Modular Architecture:** Designed for extensibility and maintainability, allowing easy integration of new translation services and features.
+-   **Multiple Translation Services:** Supports translation via Google Translate (default) and DeepL, with an extensible design for future services.
+-   **Batch Processing:** Efficiently translate multiple SRT files or entire directories containing SRT files.
+-   **HTML Tag Preservation:** Intelligently preserves HTML formatting tags (e.g., `<i>`, `<b>`) within subtitles, ensuring translated output retains original styling.
+-   **Mixed-Language Handling:** Employs sentence-level language detection to accurately translate subtitle blocks containing a mixture of different languages.
+-   **Automatic Output Naming:** Generates translated output files with a clear, standardized naming convention.
+-   **Progress Indicators:** Provides a progress bar for batch translation tasks.
 
 ## Requirements
 
-- Python 3.6+
-- `deep-translator` library
-- `tqdm` library
-- `chardet` library
+-   Python 3.6+
+-   The libraries listed in `requirements.txt`
 
 ## Installation
 
-1. **Clone the repository** (or download the script):
+1.  **Clone the repository**:
 
     ```bash
-    git clone git@github.com:fam007e/SRT_Trans.git
+    git clone https://github.com/fam007e/SRT_Trans.git
     cd SRT_Trans
     ```
 
-2. **Install the required libraries**:
+2.  **Install the required libraries**:
 
     ```bash
     pip install -r requirements.txt
     ```
 
+3.  **Download NLTK data (for mixed-language detection)**:
+
+    ```bash
+    python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
+    ```
 
 ## Usage
 
 ### Command Line Interface
 
-Run the script from the command line with the following format:
+The `translate-srt` command is the entry point for the application. It supports translating single files or multiple files/directories.
 
 ```bash
-python srt_tr.py input_file.srt target_language [-s source_language] [-o output_file]
+translate-srt <input_paths...> <target_language> [--source_lang SOURCE_LANGUAGE] [--translator {google,deepl}] [--output_dir OUTPUT_DIRECTORY]
 ```
-- `input_file.srt`: Path to your input .srt file.
-- `target_language`: Language code to translate to (e.g., `bn` for Bangla).
-- `-s, --source_language`: Language code of the input file (default: `auto`).
-- `-o, --output_file`: Path to save the translated .srt file.
 
-## Example
+-   `<input_paths...>`: One or more paths to input `.srt` files or directories containing `.srt` files.
+-   `<target_language>`: The language code to translate to (e.g., `bn` for Bangla, `es` for Spanish).
+-   `--source_lang SOURCE_LANGUAGE`: (Optional) The source language code (e.g., `en`, `es`). Defaults to `auto`-detection. For mixed-language input, `auto` is recommended.
+-   `--translator {google,deepl}`: (Optional) Specify the translation service to use. Choose `google` (default) or `deepl`.
+-   `--output_dir OUTPUT_DIRECTORY`: (Optional) Specify a directory to save the translated files. If not provided, translated files are saved next to their originals.
+
+### DeepL Translator API Key
+
+If you choose `deepl` as your translator, you must set your DeepL API key as an environment variable named `DEEPL_API_KEY`.
+
 ```bash
-python srt_tr.py movie_subtitles.srt bn
+export DEEPL_API_KEY="YOUR_DEEPL_API_KEY"
+# Or for Windows CMD:
+# set DEEPL_API_KEY="YOUR_DEEPL_API_KEY"
 ```
-This will read the `movie_subtitles.srt` file, automatically detect the source language, translate the subtitles to Bangla, and save the output to `movie_subtitles_trs_bn.srt`.
 
-## Help
-To display help information:
+### Examples
+
+1.  **Translate a single SRT file to Bangla using Google Translate (default):**
+
+    ```bash
+    translate-srt movie_subtitles.srt bn
+    ```
+    This will create `movie_subtitles_bn.srt` in the same directory.
+
+2.  **Translate a single SRT file to Spanish using DeepL, saving to a specific directory:**
+
+    ```bash
+    translate-srt my_video.srt es --translator deepl --output_dir translated_subs
+    ```
+    This requires `DEEPL_API_KEY` to be set.
+
+3.  **Batch translate all SRT files in a directory to French:**
+
+    ```bash
+    translate-srt ./my_srt_folder fr --output_dir ./french_translations
+    ```
+
+4.  **Translate multiple specific SRT files to German:**
+
+    ```bash
+    translate-srt episode1.srt episode2.srt de
+    ```
+
+### Help
+
+To display help information for the command-line interface:
+
 ```bash
-python srt_tr.py -h
+translate-srt --help
 ```
-This will display:
-```sql
-usage: srt_tr.py [-h] [-s SOURCE_LANGUAGE] [-o OUTPUT_FILE]
-                 input_file target_language
 
-Translate subtitles from one language to another.
-
-positional arguments:
-  input_file            Input .srt file path
-  target_language       Language code to output (e.g., bn for Bangla)
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -s SOURCE_LANGUAGE, --source_language SOURCE_LANGUAGE
-                        Language code for input (default: auto)
-  -o OUTPUT_FILE, --output_file OUTPUT_FILE
-                        Output .srt file path
-
-Language codes examples:
-  en - English
-  bn - Bangla
-  es - Spanish
-  fr - French
-  de - German
-  zh - Chinese
-  ja - Japanese
-  ko - Korean
-  ru - Russian
-  hi - Hindi
-```
 ## Supported Languages
-The script supports all languages available through the Google Translator API. Some common language codes are:
-- `en` - English
-- `bn` - Bangla
-- `es` - Spanish
-- `fr` - French
-- `de` - German
-- `zh` - Chinese
-- `ja` - Japanese
-- `ko` - Korean
-- `ru` - Russian
-- `hi` - Hindi
+
+The script supports all languages available through the chosen translation service (Google Translate or DeepL). Refer to their respective documentation for a full list of supported language codes.
 
 ## Binary Release
 
-For users who prefer not to install Python or its dependencies, pre-compiled binaries are available for Windows and Linux. These binaries allow you to run the `srt_tr` script directly without any installation.
+For users who prefer not to install Python or its dependencies, pre-compiled binaries are available for Windows and Linux. These binaries allow you to run the `translate-srt` script directly without any installation.
 
 ### Download
 
@@ -116,8 +119,9 @@ You can download the latest binaries from the [GitHub Releases page](https://git
 1.  Download `srt_tr_win.exe` from the [Releases page](https://github.com/fam007e/SRT_Trans/releases).
 2.  Open a Command Prompt or PowerShell window in the directory where you downloaded the executable.
 3.  Run the executable with the desired arguments:
+
     ```bash
-    srt_tr_win.exe input_file.srt target_language [-s source_language] [-o output_file]
+    srt_tr_win.exe input_file.srt target_language [...other_options]
     ```
 
 #### Linux
@@ -125,20 +129,25 @@ You can download the latest binaries from the [GitHub Releases page](https://git
 1.  Download `srt_tr_linux` from the [Releases page](https://github.com/fam007e/SRT_Trans/releases).
 2.  Open a terminal in the directory where you downloaded the executable.
 3.  Make the executable runnable:
+
     ```bash
     chmod +x srt_tr_linux
     ```
+
 4.  Run the executable with the desired arguments:
+
     ```bash
-    ./srt_tr_linux input_file.srt target_language [-s source_language] [-o output_file]
+    ./srt_tr_linux input_file.srt target_language [...other_options]
     ```
 
 ## License
+
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-
 ## Acknowledgements
-- This script uses the `deep_translator` library. Special thanks to the contributors of this library.
+
+-   This script utilizes the `deep-translator` library, `pysrt`, `nltk`, and `langdetect`. Special thanks to the contributors of these libraries.
 
 ## Contributions
+
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
