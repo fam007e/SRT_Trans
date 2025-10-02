@@ -1,8 +1,8 @@
 import re
 import pysrt
-import nltk
 from nltk.tokenize import sent_tokenize
 from langdetect import detect, DetectorFactory
+from langdetect.lang_detect_exception import LangDetectException
 
 # Ensure reproducibility for langdetect
 DetectorFactory.seed = 0
@@ -51,5 +51,5 @@ class SrtParser:
     def detect_language(text):
         try:
             return detect(text)
-        except:
+        except LangDetectException:
             return 'unknown'

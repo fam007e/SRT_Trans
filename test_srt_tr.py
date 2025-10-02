@@ -1,6 +1,6 @@
 import os
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 import shutil
 
 from srt_translator.srt_parser import SrtParser
@@ -198,9 +198,9 @@ Test line 2
 
     def test_srt_parser_reinsert_tags(self):
         """Test the reinsert_tags static method."""
-        translated_text = "Hola mundo"
+
         tags = [('__TAG_0__', '<i>'), ('__TAG_1__', '</i>')]
-        reinserted_text = SrtParser.reinsert_tags(f"__TAG_0__Hola mundo__TAG_1__", tags)
+        reinserted_text = SrtParser.reinsert_tags("__TAG_0__Hola mundo__TAG_1__", tags)
         self.assertEqual(reinserted_text, "<i>Hola mundo</i>")
 
 if __name__ == '__main__':
