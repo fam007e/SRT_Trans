@@ -12,18 +12,21 @@ with open(
 
 setup(
     name='srt-translator',
-    version='0.1',
+    version='0.1.1',
     author='Faisal Ahmed Moshiur',
     author_email='faisalmoshiur+gitSRT@gmail.com',
-    description='A script to translate .srt files using GoogleTranslator.',
+    description='A powerful script to translate .srt files with concurrent processing support.',
     long_description=long_description,
     long_description_content_type='text/markdown',
+    url='https://github.com/fam007e/SRT_Trans',
     packages=find_packages(),
     install_requires=[
         'pysrt',
-        'googletrans==4.0.0-rc1',
         'deep-translator',
         'tqdm',
+        'chardet',
+        'nltk',
+        'langdetect',
     ],
     entry_points={
         'console_scripts': [
@@ -31,9 +34,15 @@ setup(
         ],
     },
     classifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: End Users/Desktop',
+        'Topic :: Multimedia :: Video',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.8',
 )
