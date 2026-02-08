@@ -1,7 +1,7 @@
 """Setup configuration for the SRT Translator package."""
 
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Read the content of the README file
 with open(
@@ -18,14 +18,16 @@ setup(
     description='A script to translate .srt files using GoogleTranslator.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    py_modules=['translate_srt'],
+    packages=find_packages(),
     install_requires=[
+        'pysrt',
+        'googletrans==4.0.0-rc1',
         'deep-translator',
         'tqdm',
     ],
     entry_points={
         'console_scripts': [
-            'translate-srt=translate_srt:main',
+            'translate-srt=srt_translator.cli:main',
         ],
     },
     classifiers=[

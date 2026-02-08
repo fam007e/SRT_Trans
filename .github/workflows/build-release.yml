@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - srt_tr.py
+      - srt_translator/**
 
 jobs:
   release:
@@ -24,6 +25,10 @@ jobs:
       run: |
         pip install -r requirements.txt
         pip install pyinstaller
+
+    - name: Download NLTK data
+      run: |
+        python -c "import nltk; nltk.download('punkt')"
 
     - name: Build binary
       run: |
