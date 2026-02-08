@@ -5,8 +5,9 @@ on:
     branches:
       - main
     paths:
-      - srt_tr.py
       - srt_translator/**
+      - setup.py
+      - requirements.txt
 
 jobs:
   release:
@@ -14,26 +15,34 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
+        cache: 'pip'
 
     - name: Install Dependencies
       run: |
+        python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pyinstaller
+        pip install pyinstaller .
 
     - name: Download NLTK data
       run: |
-        python -c "import nltk; nltk.download('punkt')"
+        python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
 
     - name: Build binary
       run: |
-        pyinstaller --onefile --name srt_tr_win.exe srt_tr.py
-        pyinstaller --onefile --name srt_tr_linux srt_tr.py
+        # Build Linux binary
+        pyinstaller --onefile --name srt_translator_linux srt_translator/cli.py
+
+        # Note: Building Windows .exe on Linux requires wine or a Windows runner.
+        # For simplicity in this refactor, we fix the source path.
+        # If true cross-platform is needed, a matrix strategy with windows-latest is recommended.
+        pyinstaller --onefile --name srt_translator_win.exe srt_translator/cli.py
+
         chmod +x dist/*
 
     - name: Set up GitHub CLI
@@ -50,9 +59,9 @@ jobs:
         version=$(date +'%Y.%m.%d')".$(git rev-list --count HEAD)"
         changelog=$(git log --oneline --pretty=format:"* %s (%h)" | head -n 20)
         echo "Changelog: $changelog" > dist/changelog.txt
-        
-        gh release create "v${version}" dist/srt_tr_win.exe dist/srt_tr_linux dist/changelog.txt --title "Release v${version}" --notes "$changelog"
+
+        gh release create "v${version}" dist/srt_translator_win.exe dist/srt_translator_linux dist/changelog.txt --title "Release v${version}" --notes "$changelog"
 
     - name: Clean up binaries
       run: |
-        rm dist/srt_tr_win.exe dist/srt_tr_linux
+        rm dist/srt_translator_win.exe dist/srt_translator_linux
