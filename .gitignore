@@ -123,3 +123,19 @@ celerybeat.pid
 *.swp
 *~
 .python-version
+
+# Project specific SRT outputs
+*.srt
+!test_data/bom_utf8.srt
+!test_data/edge_cases.srt
+!test_data/large.srt
+!test_data/simple.srt
+!test_data/unicode.srt
+
+# Security / Sensitive
+.env
+.env.*
+*.key
+*.pem
+secrets.yaml
+credentials.json
