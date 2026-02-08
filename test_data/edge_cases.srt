@@ -1,0 +1,60 @@
+1
+00:00:01,000 --> 00:00:05,000
+Normal subtitle line one.
+
+2
+00:00:06,000 --> 00:00:10,000
+Line with <i>italic</i> and <b>bold</b> tags.
+
+00:00:11,000 --> 00:00:15,000
+Missing index number here.
+
+4
+00:00:16 --> 00:00:20,000
+Invalid timestamp format - missing milliseconds.
+
+5
+00:00:21,000-->00:00:25,000
+No spaces around arrow.
+
+6
+00:00:26,000 --> 00:00:30,000
+
+
+7
+00:00:31,000 --> 00:00:35,000
+Text after empty block.
+
+8
+00:00:36,000 --> 00:00:40,000
+This is a very long subtitle line that exceeds typical length limits. It contains multiple sentences to test how the parser handles extremely long text content that might wrap across multiple lines in the actual video player display. Some subtitle files may contain overly verbose translations or descriptions that result in unusually long text blocks like this one.
+
+9
+00:00:41,000 --> 00:00:45,000
+<font color="#ff0000">Colored text</font> with <u>underline</u>.
+
+10
+00:00:46,000 --> 00:00:50,000
+Line with special chars: & < > " '
+
+11
+00:00:51,000 --> 00:00:55,000
+Multi-line subtitle
+that spans across
+three lines.
+
+12
+00:00:56,000 --> 00:01:00,000
+Tab	character	in	text.
+
+13
+00:01:01,000 --> 00:01:05,000
+Trailing spaces after text.
+
+14
+00:01:06,000 --> 00:01:10,000
+  Leading spaces before text.
+
+15
+00:01:11,000 --> 00:01:15,000
+Last subtitle without final newline
