@@ -2,12 +2,8 @@ name: Release Binary
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - srt_translator/**
-      - setup.py
-      - requirements.txt
+    tags:
+      - 'v*'
 
 jobs:
   release:
@@ -16,6 +12,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -38,9 +36,7 @@ jobs:
         # Build Linux binary
         pyinstaller --onefile --name srt_translator_linux srt_translator/cli.py
 
-        # Note: Building Windows .exe on Linux requires wine or a Windows runner.
-        # For simplicity in this refactor, we fix the source path.
-        # If true cross-platform is needed, a matrix strategy with windows-latest is recommended.
+        # Build Windows .exe
         pyinstaller --onefile --name srt_translator_win.exe srt_translator/cli.py
 
         chmod +x dist/*
@@ -56,11 +52,11 @@ jobs:
     - name: Create release
       id: create_release
       run: |
-        version=$(date +'%Y.%m.%d')".$(git rev-list --count HEAD)"
+        tag_name=${GITHUB_REF#refs/tags/}
         changelog=$(git log --oneline --pretty=format:"* %s (%h)" | head -n 20)
         echo "Changelog: $changelog" > dist/changelog.txt
 
-        gh release create "v${version}" dist/srt_translator_win.exe dist/srt_translator_linux dist/changelog.txt --title "Release v${version}" --notes "$changelog"
+        gh release create "$tag_name" dist/srt_translator_win.exe dist/srt_translator_linux dist/changelog.txt --title "Release $tag_name" --notes "$changelog"
 
     - name: Clean up binaries
       run: |
