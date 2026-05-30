@@ -12,7 +12,7 @@ with open(
 
 setup(
     name='srt-translator-cli',
-    version='2026.03.02',
+    version='2026.05.30',
     author='Faisal Ahmed Moshiur',
     author_email='faisalmoshiur+gitSRT@gmail.com',
     description='A powerful script to translate .srt files with concurrent processing support.',
@@ -25,11 +25,12 @@ setup(
         'deep-translator',
         'tqdm',
         'chardet<6.0.0',
-        'nltk>=3.9',
+        'nltk>=3.9.4',
         'langdetect',
-        'requests>=2.32.2',
-        'urllib3>=2.6.3',
-        'zipp>=3.19.1',
+        'requests>=2.34.2',
+        'urllib3>=2.7.0',
+        'zipp>=3.23.0',
+        'platformdirs',
     ],
     entry_points={
         'console_scripts': [

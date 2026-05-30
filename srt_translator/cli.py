@@ -6,12 +6,18 @@ import argparse
 import os
 import json
 import hashlib
+import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Tuple, Optional, Any, Dict
 from tqdm import tqdm
+from platformdirs import user_cache_dir
 from srt_translator.srt_parser import SrtParser
 from srt_translator.translators import get_translator, get_supported_languages, validate_language_code, BaseTranslator
 from srt_translator import __version__
+
+# Set up logging
+logging.basicConfig(level=logging.WARNING, format='%(levelname)s: %(message)s')
+logger = logging.getLogger(__name__)
 
 
 def get_file_hash(filepath: str) -> str:
@@ -24,7 +30,7 @@ def get_file_hash(filepath: str) -> str:
 class TranslationState:
     """Handles persistence of translation progress."""
     def __init__(self, input_file: str, output_lang: str, translator: str):
-        self.state_dir = os.path.join(os.path.expanduser("~"), ".srt_translator_cli_cache")
+        self.state_dir = user_cache_dir("srt-translator-cli")
         os.makedirs(self.state_dir, exist_ok=True)
         
         file_hash = get_file_hash(input_file)
@@ -96,7 +102,8 @@ def translate_block(block_data: Tuple[int, str, BaseTranslator, str, str]) -> Tu
         # Reinsert tags into the fully translated text
         final_translated_text = SrtParser.reinsert_tags(translated_cleaned_text, tags)
         return (idx, final_translated_text)
-    except Exception:
+    except Exception as e:
+        logger.error(f"Error translating block {idx}: {e}")
         # On error, return original text
         return (idx, original_text)
 
