@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "srt-translator-cli"
-version = "2026.05.30"
+version = "2026.05.31"
 authors = [
     { name = "Faisal Ahmed Moshiur", email = "faisalmoshiur+gitSRT@gmail.com" },
 ]

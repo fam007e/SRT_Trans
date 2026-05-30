@@ -12,7 +12,7 @@ with open(
 
 setup(
     name='srt-translator-cli',
-    version='2026.05.30',
+    version='2026.05.31',
     author='Faisal Ahmed Moshiur',
     author_email='faisalmoshiur+gitSRT@gmail.com',
     description='A powerful script to translate .srt files with concurrent processing support.',

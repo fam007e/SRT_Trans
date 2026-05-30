@@ -42,9 +42,12 @@ jobs:
       - name: Check if the user is allowed
         id: check_user
         if: env.command == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ALLOWED_USERS=("fam007e")
-          if [[ " ${ALLOWED_USERS[@]} " =~ " ${{ github.event.comment.user.login }} " ]]; then
+          # Use the GitHub CLI to check if the user has 'write' or 'admin' permissions
+          PERMISSION=$(gh api repos/${{ github.repository }}/collaborators/${{ github.event.comment.user.login }}/permission --jq '.permission')
+          if [[ "$PERMISSION" == "admin" || "$PERMISSION" == "write" ]]; then
             echo "user=true" >> $GITHUB_ENV
           else
             echo "user=false" >> $GITHUB_ENV

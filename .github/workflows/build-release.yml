@@ -72,6 +72,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
@@ -81,11 +83,23 @@ jobs:
 
       - name: Generate Changelog
         run: |
-          git log --oneline --pretty=format:"* %s (%h)" | head -n 20 > dist/changelog.txt
+          # Scope log to changes since the last tag before this one
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            git log --oneline --pretty=format:"* %s (%h)" | head -n 20 > dist/changelog.txt
+          else
+            git log --oneline --pretty=format:"* %s (%h)" "$PREV_TAG..HEAD" > dist/changelog.txt
+          fi
 
-      - name: Create release
+      - name: Create or Update release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           tag_name=${GITHUB_REF#refs/tags/}
-          gh release create "$tag_name" dist/* --title "Release $tag_name" --notes-file dist/changelog.txt
+          if gh release view "$tag_name" >/dev/null 2>&1; then
+            echo "Release $tag_name already exists. Uploading assets..."
+            gh release upload "$tag_name" dist/* --clobber
+          else
+            echo "Creating new release $tag_name..."
+            gh release create "$tag_name" dist/* --title "Release $tag_name" --notes-file dist/changelog.txt
+          fi
